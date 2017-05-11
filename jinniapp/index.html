@@ -7,120 +7,108 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 		<script>
-			"use strict";
-			
+			"use strict";		
 			// first we make sure annyang started succesfully
-			
 			if (annyang) {
-			
-			// define the functions our commands will run.
-			var hello = function() {
-			 $("#hello").show();
-			};
-			
-			var openHelpEditor = function(pageName) {
-				$('#helpDailog').click();
-				$('#pageName').val(pageName);			  
-			};
-			
-			var addPageDesc = function(){
-				$('#pageDescription').focus();				
 				
-				var inputField = document.getElementById('pageDescription');				
-				var finalTranscripts = '';
-				var speechRecognizer = annyang.getSpeechRecognizer();
-				speechRecognizer.interimResults = true;
-				speechRecognizer.onresult = function(event){
-					var interimTranscripts = '';					
-					for(var i = event.resultIndex; i < event.results.length; i++){
-						var transcript = event.results[i][0].transcript;
-						transcript.replace("\n", "<br>");						
-						if(event.results[i].isFinal){
-							finalTranscripts += transcript;
-							//annyang.trigger(finalTranscripts);
-						}else{
-							interimTranscripts += transcript;
-						}
-					}
-					inputField.innerHTML = finalTranscripts + interimTranscripts;
-					console.log("Success Text Recognized "  + inputField.innerHTML);
+				// define the functions our commands will run.
+				var hello = function() {
+				  $("#hello").show();
 				};
-				speechRecognizer.onerror = function (event) {
-					inputField.innerHTML = "Error"; 
-					console.log("Error Text Recognized : " + inputField.innerHTML);
-				};				
-			};
-			
-			var addLabelName = function(text){
-				$('#labelName').focus();			
-				$('#labelName').val(text);			
-			};
-			
-			var addLabelDesc = function(text){
-				$('#labelDescription').focus();
-				$('#labelDescription').val(text);
-			};
-			
-			var saveHelp = function() {			  
-			 var pageName = $('#pageName').val();
-			 var pageDesc = $('#pageDescription').val();
-			 var labelName = $('#labelName').val();
-			 var labelDesc = $('#labelDescription').val();
-			 
-			 var helpContent = {
-				'page' : pageName,
-				'pageDesc' : pageDesc,
-				'labelName' : labelName,
-				'labelDesc' : labelDesc,
-			 };
-			 
-			 console.log(helpContent);
-			 $('#saveHelp').click();
-			 resetHelpEditor();
-			};
-			
-			var closeHelp = function() {
-			 $('#closeHelp').click();
-			 resetHelpEditor();
-			};
-			
-			var resetHelpEditor = function(){
-				$('#pageName').val("");
-				$('#pageDescription').val("");
-				$('#labelName').val("");
-				$('#labelDescription').val("");			
-			};			
-						
-			// define our commands.
-			// * The key is the phrase you want your users to say.
-			// * The value is the action to do.
-			//   You can pass a function, a function name (as a string), or write your function as part of the commands object.
-			var commands = {
-			 'hello (there)': hello,			 
-			 'add help for *pageName': openHelpEditor,
-			 'save' : saveHelp,
-			 'close' : closeHelp,
-			 
-			 'page description': addPageDesc,
-			 'label name *text': addLabelName,
-			 'label description *text': addLabelDesc,			  
-			};
-			
-			// OPTIONAL: activate debug mode for detailed logging in the console
-			annyang.debug();
-			
-			// Add voice commands to respond to
-			annyang.addCommands(commands);
-			
-			// OPTIONAL: Set a language for speech recognition (defaults to English)
-			annyang.setLanguage('en');
-			
-			// Start listening. You can call this here, or attach this call to an event, button, etc.
-			annyang.start();
+				
+				var openHelpEditor = function(pageName) {
+					$('#helpDailog').click();
+					$('#pageName').val(pageName);			  
+				};
+				
+				var addPageDesc = function(){
+					$('#pageDescription').focus();
+					
+					var pageDesc = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#pageDescription").is(":focus")) {
+							pageDesc = pageDesc + phrases[0];
+							$('#pageDescription').val(pageDesc);
+						}	
+					});
+				};
+				
+				var addLabelName = function(){
+					$('#labelName').focus();
+					
+					var helpLabel = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#labelName").is(":focus")) {
+							helpLabel = helpLabel + phrases[0];
+							$('#labelName').val(helpLabel);	
+						}
+					});
+
+				};
+				
+				var addLabelDesc = function(){
+					$('#labelDescription').focus();
+					
+					var helpLabelDesc = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#labelDescription").is(":focus")) {
+							helpLabelDesc = helpLabelDesc + phrases[0];
+							console.log(helpLabelDesc);
+							$('#labelDescription').val(helpLabelDesc);	
+						}								
+					});
+				};
+				
+				var saveHelp = function() {			  
+				  var pageName = $('#pageName').val();
+				  var pageDesc = $('#pageDescription').val();
+				  var labelName = $('#labelName').val();
+				  var labelDesc = $('#labelDescription').val();
+				  
+				  var helpContent = {
+					'page' : pageName,
+					'pageDesc' : pageDesc,
+					'labelName' : labelName,
+					'labelDesc' : labelDesc,
+				  };
+				 
+				  console.log(helpContent);
+				  $('#saveHelp').click();
+				  resetHelpEditor();
+				};
+				
+				var closeHelp = function() {
+				  $('#closeHelp').click();
+				  resetHelpEditor();
+				};
+				
+				var resetHelpEditor = function(){
+					$('#pageName').val("");
+					$('#pageDescription').val("");
+					$('#labelName').val("");
+					$('#labelDescription').val("");			
+				};
+											
+				// define our commands.
+				var commands = {
+				  'hello (there)': hello,
+				  'add help for *pageName': openHelpEditor,
+				  'save' : saveHelp,
+				  'close' : closeHelp,
+				  
+				  'page description': addPageDesc,
+				  'field name': addLabelName,
+				  'field description': addLabelDesc,			  
+				};
+				
+				annyang.debug();
+				annyang.addCommands(commands);
+				annyang.setLanguage('en');
+				annyang.start();
 			} 
 			else {
 				$(document).ready(function() {
-				 alert("Speech Not Supported");
+				  alert("Speech Not Supported");
 				});
 			}
 		</script>
