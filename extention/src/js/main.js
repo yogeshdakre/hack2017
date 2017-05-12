@@ -90,23 +90,17 @@ function init() {
     if(win) win.close();
     chrome.system.display.getInfo(function(d){
       chrome.app.window.create(path, {
-        'frame': 'none',
+        'frame': 'chrome',
         'id': 'browser',
-        'state': 'fullscreen',
+        'state': 'normal',
         'bounds':{
-           'left':0,
-           'top':0,
-           'width':d[0].bounds.width,
-           'height':d[0].bounds.height
+           'left':Math.round(window.screen.availWidth*0.2),
+           'top':Math.round(window.screen.availHeight*0.2),
+           'width': Math.round(window.screen.availWidth*0.5),
+           'height': Math.round(window.screen.availHeight*0.5)
         }
       },function(w){
         win = w;
-        if(win){
-          win.fullscreen();
-          setTimeout(function(){
-            if(win) win.fullscreen();
-          },1000);
-        }
       });
     });
   }

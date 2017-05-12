@@ -1,11 +1,11 @@
 {
-  "name": "Kiosk",
-  "description": "Launch any URL as a full-screen kiosk.",
+  "name": "jinni",
+  "description": "jinni genrates web help and gets customer feedback",
   "manifest_version": 2,
-  "version": "5.7.2",
+  "version": "1.0",
   "author": {
-    "name": "ZEBRADOG",
-    "email": "support@zebradog.com"
+    "name": "Abhishek",
+    "email": "abhishel.rathore@fisglobal.com"
   },
   "kiosk_enabled": true,
   "offline_enabled": true,
@@ -30,10 +30,7 @@
     "system.network",
     "power",
     "webview",
-    "alwaysOnTopWindows",
     "storage",
-    "app.window.fullscreen",
-    "app.window.fullscreen.overrideEsc",
     {"fileSystem": ["directory","retainEntries"]}
   ],
   "optional_permissions": [ "audioCapture", "videoCapture" ]
