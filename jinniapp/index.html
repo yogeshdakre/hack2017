@@ -1,1 +1,170 @@
-HELLO JINNIEEEEEEEEEEEEE
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Help Commander</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+		<script>
+			"use strict";		
+			// first we make sure annyang started succesfully
+			if (annyang) {
+				
+				// define the functions our commands will run.
+				var hello = function() {
+				  $("#hello").show();
+				};
+				
+				var openHelpEditor = function(pageName) {
+					$('#helpDailog').click();
+					$('#pageName').val(pageName);			  
+				};
+				
+				var addPageDesc = function(){
+					$('#pageDescription').focus();
+					
+					var pageDesc = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#pageDescription").is(":focus")) {
+							pageDesc = pageDesc + phrases[0];
+							$('#pageDescription').val(pageDesc);
+						}	
+					});
+				};
+				
+				var addLabelName = function(){
+					$('#labelName').focus();
+					
+					var helpLabel = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#labelName").is(":focus")) {
+							helpLabel = helpLabel + phrases[0];
+							$('#labelName').val(helpLabel);	
+						}
+					});
+
+				};
+				
+				var addLabelDesc = function(){
+					$('#labelDescription').focus();
+					
+					var helpLabelDesc = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#labelDescription").is(":focus")) {
+							helpLabelDesc = helpLabelDesc + phrases[0];
+							console.log(helpLabelDesc);
+							$('#labelDescription').val(helpLabelDesc);	
+						}								
+					});
+				};
+				
+				var saveHelp = function() {			  
+				  var pageName = $('#pageName').val();
+				  var pageDesc = $('#pageDescription').val();
+				  var labelName = $('#labelName').val();
+				  var labelDesc = $('#labelDescription').val();
+				  
+				  var helpContent = {
+					'page' : pageName,
+					'pageDesc' : pageDesc,
+					'labelName' : labelName,
+					'labelDesc' : labelDesc,
+				  };
+				 
+				  console.log(helpContent);
+				  $('#saveHelp').click();
+				  resetHelpEditor();
+				};
+				
+				var closeHelp = function() {
+				  $('#closeHelp').click();
+				  resetHelpEditor();
+				};
+				
+				var resetHelpEditor = function(){
+					$('#pageName').val("");
+					$('#pageDescription').val("");
+					$('#labelName').val("");
+					$('#labelDescription').val("");			
+				};
+											
+				// define our commands.
+				var commands = {
+				  'hello (there)': hello,
+				  'add help for *pageName': openHelpEditor,
+				  'save' : saveHelp,
+				  'close' : closeHelp,
+				  
+				  'page description': addPageDesc,
+				  'field name': addLabelName,
+				  'field description': addLabelDesc,			  
+				};
+				
+				annyang.debug();
+				annyang.addCommands(commands);
+				annyang.setLanguage('en');
+				annyang.start();
+			} 
+			else {
+				$(document).ready(function() {
+				  alert("Speech Not Supported");
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="hello" style="display:none">
+			<span> Hello my sweet friend</span>
+		</div>
+		page loaded
+		<div class="container">
+			<!-- Trigger the modal with a button -->
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none">Help Dialog</button>
+			<!-- Modal -->
+			<div class="modal fade" id="helpModal" role="dialog">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+						 <button type="button" class="close" data-dismiss="modal">&times;</button>
+						 <h4 class="modal-title">Help Editor</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label for="pageName" class="col-sm-2 control-label">Name</label>
+									<div class="col-sm-10">
+									 <input type="text" class="form-control" id="pageName" placeholder="Page Name">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="pageDescription" class="col-sm-2 control-label">Description</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>									  
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="labelName" class="col-sm-2 control-label">Name</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="labelName" placeholder="Label Name">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="labelDescription" class="col-sm-2 control-label">Description</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea>									  									
+									</div>
+								</div>							  
+							</form>
+						</div>
+						<div class="modal-footer">							
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="closeHelp">Close</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveHelp">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
