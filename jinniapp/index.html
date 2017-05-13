@@ -9,26 +9,28 @@
 		<script>
 			"use strict";		
 			// first we make sure annyang started succesfully
+			
 			if (annyang) {
 				
 				// define the functions our commands will run.
-				var hello = function() {
-				  $("#hello").show();
-				};
-				
 				var openHelpEditor = function(pageName) {
 					$('#helpDailog').click();
-					$('#pageName').val(pageName);			  
+					$('#pageName').val(pageName);
 				};
 				
-				var addPageDesc = function(){
+				var addPageDesc = function(){					
 					$('#pageDescription').focus();
 					
 					var pageDesc = '';
 					annyang.addCallback('result', function(phrases) {
 						if ($("#pageDescription").is(":focus")) {
-							pageDesc = pageDesc + phrases[0];
-							$('#pageDescription').val(pageDesc);
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								pageDesc = pageDesc + phrases[0];
+								$('#pageDescription').val(pageDesc);
+							}					
 						}	
 					});
 				};
@@ -39,8 +41,13 @@
 					var helpLabel = '';
 					annyang.addCallback('result', function(phrases) {
 						if ($("#labelName").is(":focus")) {
-							helpLabel = helpLabel + phrases[0];
-							$('#labelName').val(helpLabel);	
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								helpLabel = helpLabel + phrases[0];
+								$('#labelName').val(helpLabel);	
+							}
 						}
 					});
 
@@ -52,10 +59,14 @@
 					var helpLabelDesc = '';
 					annyang.addCallback('result', function(phrases) {
 						if ($("#labelDescription").is(":focus")) {
-							helpLabelDesc = helpLabelDesc + phrases[0];
-							console.log(helpLabelDesc);
-							$('#labelDescription').val(helpLabelDesc);	
-						}								
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								helpLabelDesc = helpLabelDesc + phrases[0];
+								$('#labelDescription').val(helpLabelDesc);
+							}
+						}							
 					});
 				};
 				
@@ -88,19 +99,17 @@
 					$('#labelName').val("");
 					$('#labelDescription').val("");			
 				};
-											
+				
 				// define our commands.
 				var commands = {
-				  'hello (there)': hello,
 				  'add help for *pageName': openHelpEditor,
 				  'save' : saveHelp,
-				  'close' : closeHelp,
-				  
+				  'close' : closeHelp,				  
 				  'page description': addPageDesc,
-				  'field name': addLabelName,
-				  'field description': addLabelDesc,			  
+				  'help field': addLabelName,
+				  'help description': addLabelDesc,			  
 				};
-				
+								
 				annyang.debug();
 				annyang.addCommands(commands);
 				annyang.setLanguage('en');
@@ -111,13 +120,29 @@
 				  alert("Speech Not Supported");
 				});
 			}
+			
+			function saveHelpDetails(){
+				//alert("Details Saved Properly");
+			}
 		</script>
 	</head>
 	<body>
-		<div id="hello" style="display:none">
-			<span> Hello my sweet friend</span>
+		<div id="commandsList" class="container-fluid" style="padding:30px;">
+			<span> <h4>Application is Loaded Successfully.</h4></span>
+			<div>
+				<span><b>Please use the below mentioned commands</b></span>
+				<br><br>
+				<ul>
+				  <li>'Add help for &lt;PAGE_NAME&gt;' : Open the help editor for specified application page name</li>				  
+				  <li>'Page Description' : To enter description of the page</li>
+				  <li>'Help Field' : To enter field name</li>
+				  <li>'Help Description' : To enter field description</li>
+				  <li>'Save' : Save the entered details to process further</li>
+				  <li>'Close' : Close the help editor without saving the details</li>
+				</ul>
+			</div>
 		</div>
-		page loaded
+		
 		<div class="container">
 			<!-- Trigger the modal with a button -->
 			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none">Help Dialog</button>
@@ -127,21 +152,21 @@
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
-						 <button type="button" class="close" data-dismiss="modal">&times;</button>
-						 <h4 class="modal-title">Help Editor</h4>
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title">Help Editor</h4>
 						</div>
-						<div class="modal-body">
-							<form class="form-horizontal">
+						<div class="modal-body" id="helpModalBody">
+							<form class="form-horizontal" id="helpForm">
 								<div class="form-group">
 									<label for="pageName" class="col-sm-2 control-label">Name</label>
 									<div class="col-sm-10">
-									 <input type="text" class="form-control" id="pageName" placeholder="Page Name">
+									  <input type="text" class="form-control" id="pageName" placeholder="Page Name">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="pageDescription" class="col-sm-2 control-label">Description</label>
 									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>									  
+										<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>						
 									</div>
 								</div>
 								<div class="form-group">
@@ -153,14 +178,14 @@
 								<div class="form-group">
 									<label for="labelDescription" class="col-sm-2 control-label">Description</label>
 									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea>									  									
+										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea									  									
 									</div>
 								</div>							  
 							</form>
 						</div>
 						<div class="modal-footer">							
 							<button type="button" class="btn btn-default" data-dismiss="modal" id="closeHelp">Close</button>
-							<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveHelp">Save</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveHelpDetails();" id="saveHelp">Save</button>
 						</div>
 					</div>
 				</div>
