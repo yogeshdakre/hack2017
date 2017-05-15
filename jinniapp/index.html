@@ -9,7 +9,7 @@
 		<script>
 			"use strict";		
 			// first we make sure annyang started succesfully
-			
+			var elementName = 65;
 			if (annyang) {
 				
 				// define the functions our commands will run.
@@ -50,7 +50,6 @@
 							}
 						}
 					});
-
 				};
 				
 				var addLabelDesc = function(){
@@ -69,6 +68,38 @@
 						}							
 					});
 				};
+				
+				var addFieldLabelName = function(fieldname){	
+					var fieldId = $('#field_'+fieldname);
+					enterDetails(fieldId);					
+				};
+				
+				var addFieldLabelDesc = function(descname){				
+					var fieldId = $('#fieldDesc_'+descname);
+					enterDetails(fieldId);					
+				};
+				
+				var addLabelAndDescription = function(){
+					console.log("Going to add new label and description filed");
+					addHelpDetails();
+				}
+				
+				var enterDetails = function(fieldId){
+					fieldId.focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if (fieldId.is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								fieldId.val(details);
+							}
+						}							
+					});
+				}
 				
 				var saveHelp = function() {			  
 				  var pageName = $('#pageName').val();
@@ -107,7 +138,10 @@
 				  'close' : closeHelp,				  
 				  'page description': addPageDesc,
 				  'help field': addLabelName,
-				  'help description': addLabelDesc,			  
+				  'help description': addLabelDesc,	
+				  'add field' : addLabelAndDescription,
+				  'field :fieldname' : addFieldLabelName,
+				  'description :descname' : addFieldLabelDesc
 				};
 								
 				annyang.debug();
@@ -124,6 +158,28 @@
 			function saveHelpDetails(){
 				//alert("Details Saved Properly");
 			}
+			
+			function addHelpDetails(){
+				var fieldElementName = String.fromCharCode(elementName);
+				var eleName = String.fromCharCode(elementName).toLowerCase();
+				
+				var wrapper = $('#helpForm');
+				var fieldHTML = '<div class="form-group">' + 
+									'<label for="field_'+eleName+'" class="col-sm-2 control-label">Field '+ fieldElementName +'</label>' + 
+										'<div class="col-sm-10">' + 
+											'<input type="text" class="form-control" id="field_'+eleName+'" placeholder="Field Name">' + 
+										'</div>' + 
+								'</div>' + 
+								'<div class="form-group">' + 
+									'<label for="fieldDesc_'+eleName+'" class="col-sm-2 control-label">Description '+ fieldElementName +'</label>' + 
+										'<div class="col-sm-10">' + 
+											'<textarea class="form-control" rows="3" id="fieldDesc_'+eleName+'" placeholder="Field Description"></textarea>' + 
+										'</div>' + 
+								'</div>';
+				$(wrapper).append(fieldHTML); // Add field html				
+				elementName = elementName + 1;				
+			}			
+			
 		</script>
 	</head>
 	<body>
@@ -133,10 +189,13 @@
 				<span><b>Please use the below mentioned commands</b></span>
 				<br><br>
 				<ul>
-				  <li>'Add help for &lt;PAGE_NAME&gt;' : Open the help editor for specified application page name</li>				  
+				  <li>'Add help for <b>&lt;PAGE_NAME&gt;</b>' : Open the help editor for specified application page name</li>				  
 				  <li>'Page Description' : To enter description of the page</li>
 				  <li>'Help Field' : To enter field name</li>
 				  <li>'Help Description' : To enter field description</li>
+				  <li>'Add Field' : To Add new label and description field</li>
+				  <li>'<b>&lt; FIELD_NAME&gt;</b>' : To enter the details to newly added label</li>
+				  <li>'<b>&lt; DESCRIPTION_NAME&gt;</b>' : To  enter the details to newly addded label description </li>
 				  <li>'Save' : Save the entered details to process further</li>
 				  <li>'Close' : Close the help editor without saving the details</li>
 				</ul>
@@ -145,7 +204,7 @@
 		
 		<div class="container">
 			<!-- Trigger the modal with a button -->
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none">Help Dialog</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none;">Help Dialog</button>
 			<!-- Modal -->
 			<div class="modal fade" id="helpModal" role="dialog">
 				<div class="modal-dialog">
@@ -154,6 +213,12 @@
 						<div class="modal-header">
 						  <button type="button" class="close" data-dismiss="modal">&times;</button>
 						  <h4 class="modal-title">Help Editor</h4>
+							<div style="float:right; margin-right:20px; padding-left: 125px;">					
+								<span style="margin-right:10px;">Say '<b>Add Field</b>' to Add new Label and its Description</span>
+								<a href="#;" onclick="addHelpDetails();" id="add_button" title="Add field">									
+									<span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</div>
 						</div>
 						<div class="modal-body" id="helpModalBody">
 							<form class="form-horizontal" id="helpForm">
