@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Jinni The Executor</title>
+		<title>Jinnie The Executor</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -581,83 +582,291 @@
 								'</div>';
 				$(wrapper).append(fieldHTML); // Add field html				
 				elementName = elementName + 1;				
-			}			
+			}
+	
+			// To Save Customer feedback
+			function saveFeedBackDetails(){
+			}
 			
+			// To Save test details 
+			function saveTestCaseDetails(){
+			}
+			
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('#commandsList, #commandsListFeedBack, #commandsListTestCase').hide();
+				$('#helpCreater, #custFeedBack, #testCase').hide();
+		
+				// Help Creater
+				$('#voice').on('click', function () {
+					$('#helpDailog').hide();
+					$('#commandsList').show();				
+				});
+
+				$('#manual').on('click', function () {
+					$('#commandsList').hide();
+					$('#helpDailog').show();
+				});
+		
+				// Customer Feedback
+				$('#voiceFeedBack').on('click', function () {
+					$('#feedbackDailog').hide();
+					$('#commandsListFeedBack').show();		
+				});
+
+				$('#manualFeedBack').on('click', function () {
+					$('#commandsListFeedBack').hide();
+					$('#feedbackDailog').show();
+				});
+		
+				// Test Case Creation
+				$('#voiceTestCase').on('click', function () {
+					$('#testCaseDailog').hide();
+					$('#commandsListTestCase').show();		
+				});
+
+				$('#manualTestCase').on('click', function () {
+					$('#commandsListTestCase').hide();
+					$('#testCaseDailog').show();
+				});	
+
+				$('#useHelp').on('click', function () {
+					$('#helpCreater').show();
+					$('#testCase, #custFeedBack').hide();
+				});
+				
+				$('#useFeedBack').on('click', function () {
+					$('#custFeedBack').show();
+					$('#testCase, #helpCreater').hide();
+				});
+				
+				$('#useTestCase').on('click', function () {
+					$('#testCase').show();
+					$('#helpCreater, #custFeedBack').hide();
+				});
+			});
 		</script>
 	</head>
 	<body>
-		<div id="commandsList" class="container-fluid" style="padding:30px;">
-			<span> <h4>Application is Loaded Successfully.</h4></span>
-			<div>
-				<span><b>Please use the below mentioned commands</b></span>
-				<br><br>
-				<ul>
-				  <li>'Add help for <b>&lt;PAGE_NAME&gt;</b>' : Open the help editor for specified application page name</li>				  
-				  <li>'Page Description' : To enter description of the page</li>
-				  <li>'Help Field' : To enter field name</li>
-				  <li>'Help Description' : To enter field description</li>
-				  <li>'Add Field' : To Add new label and description field</li>
-				  <li>'<b>&lt; FIELD_NAME&gt;</b>' : To enter the details to newly added label</li>
-				  <li>'<b>&lt; DESCRIPTION_NAME&gt;</b>' : To  enter the details to newly addded label description </li>
-				  <li>'Save' : Save the entered details to process further</li>
-				  <li>'Close' : Close the help editor without saving the details</li>
-				</ul>
+			<div class = "page-header" style="margin: 0px 70px 0px 70px; padding-bottom: 0px; padding-left: 10px;">
+				<h1><img src="app_logo.png" class="img-rounded" width="45px;"/>Jinnie The Executor</h1>
 			</div>
-		</div>
-		
-		<div class="container">
-			<!-- Trigger the modal with a button -->
-			<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:block;">Help Editor</button>
-			<!-- Modal -->
-			<div class="modal fade" id="helpModal" role="dialog">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-						  <button type="button" class="close" data-dismiss="modal">&times;</button>
-						  <h4 class="modal-title">Help Editor</h4>
-							<div style="float:right; margin-right:20px; padding-left: 125px;">					
-								<span style="margin-right:10px;">Say '<b>Add Field</b>' to Add new Label and its Description</span>
-								<a href="#;" onclick="addHelpDetails();" id="add_button" title="Add field">									
-									<span class="glyphicon glyphicon-plus"></span>
-								</a>
+			<div style="padding: 0px 50px 50px 50px;">			
+				<!-- Jinni Help Creater-->
+				<div style="width:33%; padding:20px; float: left;">
+					<h3>Jinnie Help Creater</h3>
+					<p>The Jinni Help Creater provide an ability to the user to create the help for the application through manual entry or voice commands.</p>
+					<img src="Jinni_Helper.png" class="img-rounded" style="cursor:pointer" alt="Jinni Help Creater" id="useHelp">
+					<br><br>
+					<div id="helpCreater">
+						<p><b>Select the Mode for Help Creation</b></p>
+						<form>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="voice">Voice Entry</label>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="manual">Manual Entry</label>			
+						</form>
+						<div id="commandsList">
+							<span><b>Use the below mentioned commands</b></span>
+							<br>
+							<ul>
+							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
+							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
+							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
+							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
+							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
+							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
+							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
+							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
+							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
+							</ul>
+						</div>
+						<!-- Modal Window for Help Editor -->
+						<br>
+						<div>
+							<!-- Trigger the modal with a button -->
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none;">Help Editor</button>
+							<!-- Modal -->
+							<div class="modal fade" id="helpModal" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content modal-lg">
+										<div class="modal-header">
+										  <button type="button" class="close" data-dismiss="modal">&times;</button>
+										  <h4 class="modal-title">Help Editor</h4>
+											<div style="float:right; margin-right:20px; padding-left: 125px;">					
+												<span style="margin-right:10px;">Say '<b>Add Field</b>' to Add new Label and its Description</span>
+												<a href="#;" onclick="addHelpDetails();" id="add_button" title="Add field">									
+													<span class="glyphicon glyphicon-plus"></span>
+												</a>
+											</div>
+										</div>
+										<div class="modal-body" id="helpModalBody">
+											<form class="form-horizontal" id="helpForm">
+												<div class="form-group">
+													<label for="pageName" class="col-sm-2 control-label">Name</label>
+													<div class="col-sm-10">
+													  <input type="text" class="form-control" id="pageName" placeholder="Page Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="pageDescription" class="col-sm-2 control-label">Description</label>
+													<div class="col-sm-10">
+														<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>						
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="labelName" class="col-sm-2 control-label">Label</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" id="labelName" placeholder="Label Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="labelDescription" class="col-sm-2 control-label">Description</label>
+													<div class="col-sm-10">
+														<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea>			  									
+													</div>
+												</div>							  
+											</form>
+										</div>
+										<div class="modal-footer">							
+											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeHelp">Close</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveHelpDetails();" id="saveHelp">Save</button>
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="modal-body" id="helpModalBody">
-							<form class="form-horizontal" id="helpForm">
-								<div class="form-group">
-									<label for="pageName" class="col-sm-2 control-label">Name</label>
-									<div class="col-sm-10">
-									  <input type="text" class="form-control" id="pageName" placeholder="Page Name">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="pageDescription" class="col-sm-2 control-label">Description</label>
-									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>						
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="labelName" class="col-sm-2 control-label">Name</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" id="labelName" placeholder="Label Name">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="labelDescription" class="col-sm-2 control-label">Description</label>
-									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea>			  									
-									</div>
-								</div>							  
-							</form>
-						</div>
-						<div class="modal-footer">							
-							<button type="button" class="btn btn-default" data-dismiss="modal" id="closeHelp">Close</button>
-							<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveHelpDetails();" id="saveHelp">Save</button>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+				
+				<!-- Jinni Customer Feedback-->
+				<div style="width:33%; padding:20px; float: left;">
+					<h3>Jinnie Customer Feedback</h3>
+					<p>
+						The Jinnie Customer Feedback provide an ability to the user to enter thier feedback retated to application functionality through manual entry or voice commands.
+						This guide the developer while looking at the issue.
+					</p>
+					<img src="Customer_Feedback.png" class="img-rounded" style="cursor:pointer" alt="Jinni Feedback Creater" id="useFeedBack">
+					<br><br>
+					<div id="custFeedBack">
+						<p><b>Select the Mode for Feedback Creation</b></p>
+						<form>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="voiceFeedBack">Voice Entry</label>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="manualFeedBack">Manual Entry</label>			
+						</form>
+						<div id="commandsListFeedBack">
+							<span><b>Use the below mentioned commands</b></span>
+							<br>
+							<ul>
+							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
+							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
+							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
+							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
+							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
+							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
+							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
+							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
+							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
+							</ul>
+						</div>
+						<br>
+						<!-- Modal Window for Customer Feedback -->
+						<div>
+							<!-- Trigger the modal with a button -->
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#feedBackModal" id="feedbackDailog" style="display:none;">Feedback Editor</button>
+							<!-- Modal -->
+							<div class="modal fade" id="feedBackModal" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content modal-lg">
+										<div class="modal-header">
+										  <button type="button" class="close" data-dismiss="modal">&times;</button>
+										  <h4 class="modal-title">Feedback Editor</h4>								
+										</div>
+										<div class="modal-body" id="feedBackModalBody">
+											<form class="form-horizontal" id="feedbackForm">																		
+												<div class="form-group">
+													<label for="feedbackDescription" class="col-sm-2 control-label">Enter Your Feedback</label>
+													<div class="col-sm-10">
+														<textarea class="form-control" rows="10" id="feedbackDescription" placeholder=""></textarea>	  									
+													</div>
+												</div>							  
+											</form>
+										</div>
+										<div class="modal-footer">							
+											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeFeedBack">Close</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveFeedBackDetails();" id="saveFeedBack">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Jinni Test Case Creation-->
+				<div style="width:33%; padding:20px; float: left;">
+					<h3>Jinnie Test Case Creation</h3>
+					<p>
+						The Jinnie Test Case Creation provide an ability to the QA Developer to enter the test scenarios related to the page in the through manual entry or voice commands.				
+					</p>
+					<img src="Test_Case.png" class="img-rounded" style="cursor:pointer" alt="Jinni Test Case Creater" id="useTestCase">
+					<br><br>
+					<div id="testCase">
+						<p><b>Select the Mode for Test Case Creation</b></p>
+						<form>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="voiceTestCase">Voice Entry</label>
+							<label class="radio-inline"><input type="radio" name="helpOptions" id="manualTestCase">Manual Entry</label>			
+						</form>
+						<div id="commandsListTestCase">
+							<span><b>Use the below mentioned commands</b></span>
+							<br>
+							<ul>
+							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
+							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
+							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
+							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
+							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
+							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
+							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
+							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
+							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
+							</ul>
+						</div>
+						<br>
+						<!-- Modal Window for Test Case Creation -->
+						<div>
+							<!-- Trigger the modal with a button -->
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#testCaseModal" id="testCaseDailog" style="display:none;">Test Case Editor</button>
+							<!-- Modal -->
+							<div class="modal fade" id="testCaseModal" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content modal-lg">
+										<div class="modal-header">
+										  <button type="button" class="close" data-dismiss="modal">&times;</button>
+										  <h4 class="modal-title">Test Case Editor</h4>								
+										</div>
+										<div class="modal-body" id="testCaseModalBody">
+											<form class="form-horizontal" id="testCaseForm">																		
+												<div class="form-group">
+													<label for="testCaseDescription" class="col-sm-2 control-label">Enter Steps of Test Case</label>
+													<div class="col-sm-10">
+														<textarea class="form-control" rows="10" id="testCaseDescription" placeholder=""></textarea>	  									
+													</div>
+												</div>							  
+											</form>
+										</div>
+										<div class="modal-footer">							
+											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeTestCase>Close</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveTestCaseDetails();" id="saveTestCase">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
 	</body>
 </html>
