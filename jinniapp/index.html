@@ -7,6 +7,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 		<script>
 			"use strict";		
 			// first we make sure annyang started succesfully
@@ -528,7 +529,12 @@
 				var pageDesc = $('#pageDescription').val();
 				var labelName = $('#labelName').val();
 				var labelDesc = $('#labelDescription').val();
-			
+				var applicationName =$('#applicationName').val();
+
+				var storeObject ={};
+				storeObject.appName =applicationName;
+				storeObject.name= "www.jinny.com";
+
 				var pages = [];				
 				var helpFor = [];
 				helpFor.push({"label": labelName, "description": labelDesc});
@@ -540,8 +546,29 @@
 						helpFor.push({"label": lblName, "description": descName});
 					}					
 				}				
-				pages.push({"name":pageName, "descrption": pageDesc, "helpFor": helpFor});				
-				console.log(pages);	
+				pages.push({"name":pageName, "descrption": pageDesc, "helpFor": helpFor});
+				storeObject.pages =pages;
+
+				var ref = firebase.database().ref(applicationName);
+				ref.once('value').then(function(snapshot){
+					var obj=snapshot.val();
+					if(obj==null || obj== undefined){
+						ref.push(storeObject);
+					}else{
+						if(obj.pages!=null){
+							for (var i = obj.pages.length - 1; i >= 0; i--) {
+								var page = obj.pages[i];
+								if(page.name==pages.name){
+								
+								}
+							}
+						}
+
+					}
+					console.log("what i have",snapshot.val());
+				});
+
+				console.log(storeObject);	
 
 				resetHelpEditor();
 			}
@@ -551,7 +578,8 @@
 					$('#pageDescription').val("");
 					$('#labelName').val("");
 					$('#labelDescription').val("");	
-					
+					$('#applicationName').val("");
+
 					for(var i = 65; i< 75; i++){
 						var elementName = String.fromCharCode(i).toLowerCase();
 						var lblName = $('#field_'+elementName).val();
@@ -645,6 +673,16 @@
 					$('#testCase').show();
 					$('#helpCreater, #custFeedBack').hide();
 				});
+
+				var config = {
+								apiKey: "AIzaSyD9JMCwNlSEJXXRufHUweGjeG3ieeX3a34",
+								authDomain: "jinni-ce7a3.firebaseapp.com",
+								databaseURL: "https://jinni-ce7a3.firebaseio.com",
+								projectId: "jinni-ce7a3",
+								storageBucket: "jinni-ce7a3.appspot.com",
+								messagingSenderId: "374952717571"
+			  				};
+			  firebase.initializeApp(config);
 			});
 		</script>
 	</head>
@@ -702,14 +740,20 @@
 										</div>
 										<div class="modal-body" id="helpModalBody">
 											<form class="form-horizontal" id="helpForm">
+											<div class="form-group">
+												<label for="applicationName" class="col-sm-2 control-label">Application Name</label>
+												<div class="col-sm-10">
+												  <input type="text" class="form-control" id="applicationName" placeholder="Application Name">
+												</div>
+											</div>
 												<div class="form-group">
-													<label for="pageName" class="col-sm-2 control-label">Name</label>
+													<label for="pageName" class="col-sm-2 control-label">Page Name</label>
 													<div class="col-sm-10">
 													  <input type="text" class="form-control" id="pageName" placeholder="Page Name">
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="pageDescription" class="col-sm-2 control-label">Description</label>
+													<label for="pageDescription" class="col-sm-2 control-label">Page Description</label>
 													<div class="col-sm-10">
 														<textarea class="form-control" rows="3" id="pageDescription" placeholder="Page Description"></textarea>						
 													</div>
