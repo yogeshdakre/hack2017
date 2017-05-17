@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Help Commander</title>
+		<title>Jinni The Executor</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -13,11 +13,14 @@
 			if (annyang) {
 				
 				// define the functions our commands will run.
+				
+				// Command to open Help Editor
 				var openHelpEditor = function(pageName) {
 					$('#helpDailog').click();
 					$('#pageName').val(pageName);
 				};
 				
+				// Add Page Description
 				var addPageDesc = function(){					
 					$('#pageDescription').focus();
 					
@@ -35,6 +38,7 @@
 					});
 				};
 				
+				// Add Label Name
 				var addLabelName = function(){
 					$('#labelName').focus();
 					
@@ -52,6 +56,7 @@
 					});
 				};
 				
+				// Add Label Description
 				var addLabelDesc = function(){
 					$('#labelDescription').focus();
 					
@@ -69,52 +74,393 @@
 					});
 				};
 				
-				var addFieldLabelName = function(fieldname){	
-					var fieldId = $('#field_'+fieldname);
-					enterDetails(fieldId);					
-				};
-				
-				var addFieldLabelDesc = function(descname){				
-					var fieldId = $('#fieldDesc_'+descname);
-					enterDetails(fieldId);					
-				};
-				
+				// Add New Label and its Description fields
 				var addLabelAndDescription = function(){
 					console.log("Going to add new label and description filed");
 					addHelpDetails();
 				}
 				
-				var enterDetails = function(fieldId){
-					fieldId.focus();
+				// For Label And Description A
+				var addFieldLabelNameA = function(){					
+					$('#field_a').focus();
 					
 					var details = '';
 					annyang.addCallback('result', function(phrases) {
-						if (fieldId.is(":focus")) {
+						if ($('#field_a').is(":focus")) {
 							var recognizedPhase = phrases[0];
 							console.log("Recognized Phases : '" + recognizedPhase + "'");
 							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
 							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
 								details = details + phrases[0];
-								fieldId.val(details);
+								$('#field_a').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescA = function(){
+					$('#fieldDesc_a').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_a').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_a').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description B
+				var addFieldLabelNameB = function(){					
+					$('#field_b').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_b').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_b').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescB = function(){
+					$('#fieldDesc_b').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_b').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_b').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description C
+				var addFieldLabelNameC = function(){					
+					$('#field_c').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_c').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_c').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescC = function(){
+					$('#fieldDesc_c').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_c').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_c').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description D
+				var addFieldLabelNameD = function(){					
+					$('#field_d').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_d').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_d').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescD = function(){
+					$('#fieldDesc_d').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_d').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_d').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description E
+				var addFieldLabelNameE = function(){					
+					$('#field_e').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_e').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_e').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescE = function(){
+					$('#fieldDesc_e').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_e').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_e').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description F
+				var addFieldLabelNameF = function(){					
+					$('#field_f').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_f').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_f').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescF = function(){
+					$('#fieldDesc_f').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_f').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_f').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description G
+				var addFieldLabelNameG = function(){					
+					$('#field_g').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_g').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_g').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescG = function(){
+					$('#fieldDesc_g').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_g').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_g').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description H
+				var addFieldLabelNameH = function(){					
+					$('#field_h').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_h').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_h').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescH = function(){
+					$('#fieldDesc_h').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_h').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_h').val(details);
+							}
+						}							
+					});
+				}
+				
+				// For Label And Description I
+				var addFieldLabelNameI = function(){					
+					$('#field_i').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_i').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_i').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescI = function(){
+					$('#fieldDesc_i').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_i').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_i').val(details);
+							}
+						}							
+					});
+				}
+
+				// For Label And Description J
+				var addFieldLabelNameJ = function(){					
+					$('#field_j').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#field_j').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#field_j').val(details);
+							}
+						}							
+					});
+				}
+				
+				var addFieldLabelDescJ = function(){
+					$('#fieldDesc_j').focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#fieldDesc_j').is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#fieldDesc_j').val(details);
+							}
+						}							
+					});
+				}
+				
+				// Adding fields and its description field dynamically
+				var addFieldLabelName = function(fieldname){	
+					var fieldId = 'field_'+fieldname;
+					enterDetails(fieldId);					
+				};
+				
+				var addFieldLabelDesc = function(descname){				
+					var fieldId = 'fieldDesc_'+descname;
+					enterDetails(fieldId);					
+				};								
+				
+				var enterDetails = function(fieldId){
+					console.log("Field Id " + fieldId);
+					$('#'+fieldId).focus();
+					
+					var details = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($('#'+fieldId).is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								details = details + phrases[0];
+								$('#'+fieldId).val(details);
 							}
 						}							
 					});
 				}
 				
 				var saveHelp = function() {			  
-				  var pageName = $('#pageName').val();
-				  var pageDesc = $('#pageDescription').val();
-				  var labelName = $('#labelName').val();
-				  var labelDesc = $('#labelDescription').val();
-				  
-				  var helpContent = {
-					'page' : pageName,
-					'pageDesc' : pageDesc,
-					'labelName' : labelName,
-					'labelDesc' : labelDesc,
-				  };
-				 
-				  console.log(helpContent);
+				  saveHelpDetails();
 				  $('#saveHelp').click();
 				  resetHelpEditor();
 				};
@@ -123,25 +469,46 @@
 				  $('#closeHelp').click();
 				  resetHelpEditor();
 				};
-				
-				var resetHelpEditor = function(){
-					$('#pageName').val("");
-					$('#pageDescription').val("");
-					$('#labelName').val("");
-					$('#labelDescription').val("");			
-				};
-				
+								
 				// define our commands.
 				var commands = {
-				  'add help for *pageName': openHelpEditor,
-				  'save' : saveHelp,
-				  'close' : closeHelp,				  
-				  'page description': addPageDesc,
-				  'help field': addLabelName,
-				  'help description': addLabelDesc,	
-				  'add field' : addLabelAndDescription,
-				  'field :fieldname' : addFieldLabelName,
-				  'description :descname' : addFieldLabelDesc
+					'add help for *pageName': openHelpEditor,
+					'save' : saveHelp,
+					'close' : closeHelp,				  
+					'page description': addPageDesc,
+					'help field': addLabelName,
+					'help description': addLabelDesc,	
+					'add field' : addLabelAndDescription,
+
+					'field a' : addFieldLabelNameA,
+					'description a' : addFieldLabelDescA,
+					
+					'field b' : addFieldLabelNameB,
+					'description b' : addFieldLabelDescB,
+					
+					'field c' : addFieldLabelNameC,
+					'description c' : addFieldLabelDescC,
+					
+					'field d' : addFieldLabelNameD,
+					'description d' : addFieldLabelDescD,
+					
+					'field e' : addFieldLabelNameE,
+					'description e' : addFieldLabelDescE,
+					
+					'field f' : addFieldLabelNameF,
+					'description f' : addFieldLabelDescF,
+					
+					'field g' : addFieldLabelNameG,
+					'description g' : addFieldLabelDescG,
+					
+					'field h' : addFieldLabelNameH,
+					'description h' : addFieldLabelDescH,
+					
+					'field i' : addFieldLabelNameI,
+					'description i' : addFieldLabelDescI,
+					
+					'field j' : addFieldLabelNameJ,
+					'description j' : addFieldLabelDescJ				  
 				};
 								
 				annyang.debug();
@@ -155,13 +522,49 @@
 				});
 			}
 			
-			function saveHelpDetails(){
-				//alert("Details Saved Properly");
+			function saveHelpDetails(){				
+				var pageName = $('#pageName').val();
+				var pageDesc = $('#pageDescription').val();
+				var labelName = $('#labelName').val();
+				var labelDesc = $('#labelDescription').val();
+			
+				var pages = [];				
+				var helpFor = [];
+				helpFor.push({"label": labelName, "description": labelDesc});
+				for(var i = 65; i< 75; i++){
+					var elementName = String.fromCharCode(i).toLowerCase();
+					var lblName = $('#field_'+elementName).val();
+					var descName = $('#fieldDesc_'+elementName).val();
+					if( lblName !== undefined  && descName !== undefined){
+						helpFor.push({"label": lblName, "description": descName});
+					}					
+				}				
+				pages.push({"name":pageName, "descrption": pageDesc, "helpFor": helpFor});				
+				console.log(pages);	
+
+				resetHelpEditor();
 			}
+			
+			function resetHelpEditor() {
+					$('#pageName').val("");
+					$('#pageDescription').val("");
+					$('#labelName').val("");
+					$('#labelDescription').val("");	
+					
+					for(var i = 65; i< 75; i++){
+						var elementName = String.fromCharCode(i).toLowerCase();
+						var lblName = $('#field_'+elementName).val();
+						var descName = $('#fieldDesc_'+elementName).val();
+						if( lblName !== undefined  && descName !== undefined){
+							$('#field_'+elementName).val("");
+							$('#fieldDesc_'+elementName).val("");
+						}					
+					}
+				};
 			
 			function addHelpDetails(){
 				var fieldElementName = String.fromCharCode(elementName);
-				var eleName = String.fromCharCode(elementName).toLowerCase();
+				var eleName = String.fromCharCode(elementName).toLowerCase();				
 				
 				var wrapper = $('#helpForm');
 				var fieldHTML = '<div class="form-group">' + 
@@ -204,7 +607,7 @@
 		
 		<div class="container">
 			<!-- Trigger the modal with a button -->
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:none;">Help Dialog</button>
+			<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#helpModal" id="helpDailog" style="display:block;">Help Editor</button>
 			<!-- Modal -->
 			<div class="modal fade" id="helpModal" role="dialog">
 				<div class="modal-dialog">
@@ -243,7 +646,7 @@
 								<div class="form-group">
 									<label for="labelDescription" class="col-sm-2 control-label">Description</label>
 									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea									  									
+										<textarea class="form-control" rows="3" id="labelDescription" placeholder="Label Description"></textarea>			  									
 									</div>
 								</div>							  
 							</form>
