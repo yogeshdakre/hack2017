@@ -589,7 +589,7 @@
 				var applicationName =$('#applicationName').val();
 				var applicationUrl = $('#applicationUrl').val();
 
-				var storeObject ={};
+				var storeObject ={"appName":'',"name":'',"pages":[]};
 				storeObject.appName =applicationName;
 				storeObject.name= applicationUrl;
 
@@ -614,7 +614,7 @@
 					//check if application created or not if created the create or update 
 					if(obj==null || obj== undefined){
 						// create
-						ref.push(storeObject);
+						ref.set(storeObject);
 					}else
 					{
 						// update
@@ -665,6 +665,7 @@
 							{
 								obj.pages =pages;
 							}
+						ref.update(obj);	
 					}
 					
 					console.log("what i have",snapshot.val());
