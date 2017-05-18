@@ -550,23 +550,68 @@
 				storeObject.pages =pages;
 
 				var ref = firebase.database().ref(applicationName);
-				ref.once('value').then(function(snapshot){
+				ref.once('value').then(function(snapshot)
+				{
 					var obj=snapshot.val();
+					//check if application created or not if created the create or update 
 					if(obj==null || obj== undefined){
+						// create
 						ref.push(storeObject);
-					}else{
-						if(obj.pages!=null){
-							for (var i = obj.pages.length - 1; i >= 0; i--) {
-								var page = obj.pages[i];
-								if(page.name==pages.name){
-								
+					}else
+					{
+						// update
+							if(obj.pages!=null)
+							{
+								// check page by page for help and page discription 
+								var pageFound = false;
+								for (var i = obj.pages.length - 1; i >= 0; i--)
+								 {
+										var page = obj.pages[i];
+										if(page.name==pages[0].name)
+										{
+											page.descrption =pages[0].descrption;
+
+													if(helpFor!=null)
+													{
+														for (var j = helpFor.length - 1; j >= 0; j--)
+														 {
+															var newHelp = helpFor[j];
+															var found = false;
+															for (var k = page.helpFor.length - 1; k >= 0; k--)
+															 {
+																var oldHelp = page.helpFor[k];
+																if(oldHelp.label ==newHelp.label)
+																{
+																	page.helpFor[k] = newHelp;
+																	found = true;
+																	break;
+																}
+
+															 }
+															 if(!found){
+															 	page.helpFor.push(newHelp);
+
+															 }
+														 }
+													}
+											pageFound = true;
+											break;
+										}
+								}
+								if (!pageFound) {
+									obj.pages.push(pages[0]);
 								}
 							}
-						}
-
+							else
+							{
+								obj.pages =pages;
+							}
 					}
+					
 					console.log("what i have",snapshot.val());
 				});
+					
+				
 
 				console.log(storeObject);	
 
