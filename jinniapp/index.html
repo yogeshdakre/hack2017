@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Genie The Executor</title>
+		<title>Genie</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -516,21 +516,91 @@
 				
 				var saveHelp = function() {			  
 				  saveHelpDetails();
-				  $('#saveHelp').click();
-				  resetHelpEditor();
+				  $('#saveHelp').click();				
 				};
 				
 				var closeHelp = function() {
-				  $('#closeHelp').click();
-				  resetHelpEditor();
+				  closeHelpDetails();
+				  $('#closeHelp').click();				 
+				};
+				
+				
+				// Command functions for Customer Feedback
+				// Command to open feedback editor
+				var openFeedbackEditor = function() {
+					$('#feedbackDailog').click();					
+				};
+
+				// Application Name
+				var addFBApplicationName = function() {
+					$('#applicationNameFB').focus();
+					
+					var appNameDetail = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#applicationNameFB").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								appNameDetail = appNameDetail + phrases[0];
+								$('#applicationNameFB').val(appNameDetail);
+							}					
+						}	
+					});
+				};
+				
+				// Add Page Name				
+				var addFBPageName = function(){					
+					$('#pageNameFB').focus();
+					
+					var pageNameDetail = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#pageNameFB").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								pageNameDetail = pageNameDetail + phrases[0];
+								$('#pageNameFB').val(pageNameDetail);
+							}					
+						}	
+					});
+				};
+				
+				// Add Feedback Comments				
+				var addFeedbackNotes = function(){					
+					$('#feedbackDescription').focus();
+					
+					var feedbackDesc = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#feedbackDescription").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								feedbackDesc = feedbackDesc + phrases[0];
+								$('#feedbackDescription').val(feedbackDesc);
+							}					
+						}	
+					});
+				};
+				
+				var saveFeedback = function() {			  
+				  saveFeedBackDetails();
+				  $('#saveFeedBack').click();				  
+				};
+				
+				var closeFeedback = function() {
+				  closeFeedBackDetails();
+				  $('#closeFeedBack').click();				  
 				};
 								
 				// define our commands.
 				var commands = {
 
 					'add help': openHelpEditor,
-					'save' : saveHelp,
-					'close' : closeHelp,
+					'save help' : saveHelp,
+					'close help' : closeHelp,
 					'application name' : addApplicationName,			  
 					'application link' : addApplicationURL,
 					'page name': addPageName,
@@ -567,7 +637,15 @@
 					'description i' : addFieldLabelDescI,
 					
 					'field j' : addFieldLabelNameJ,
-					'description j' : addFieldLabelDescJ				  
+					'description j' : addFieldLabelDescJ,
+
+					
+					'add feedback': openFeedbackEditor,
+					'save feedback' : saveFeedback,
+					'close feedback' : closeFeedback,
+					'feedback for application' : addFBApplicationName,			  
+					'feedback for page' : addFBPageName,
+					'comments': addFeedbackNotes
 				};
 								
 				annyang.debug();
@@ -675,27 +753,31 @@
 
 				console.log(storeObject);	
 
-				resetHelpEditor();
+				resetAllEditor();
 			}
 			
-			function resetHelpEditor() {
-					$('#pageName, #pageDescription, #labelName, #labelDescription, #applicationName, #applicationUrl').val("");
-					
-					for(var i = 65; i< 75; i++){
-						var elementName = String.fromCharCode(i).toLowerCase();
-						var lblName = $('#field_'+elementName).val();
-						var descName = $('#fieldDesc_'+elementName).val();
-						if( lblName !== undefined  && descName !== undefined){
-							$('#field_'+elementName).val("");
-							$('#fieldDesc_'+elementName).val("");
-							
-							// Remove the newly added elements from the DOM
-							$('#field_'+elementName).parent('div').parent('div').remove();
-							$('#fieldDesc_'+elementName).parent('div').parent('div').remove();
+			function closeHelpDetails(){
+				resetAllEditor();
+			}
+			
+			function resetAllEditor() {
+				$('#pageName, #pageDescription, #labelName, #labelDescription, #applicationName, #applicationUrl, #applicationNameFB, #pageNameFB, #feedbackDescription').val("");
+				
+				for(var i = 65; i< 75; i++){
+					var elementName = String.fromCharCode(i).toLowerCase();
+					var lblName = $('#field_'+elementName).val();
+					var descName = $('#fieldDesc_'+elementName).val();
+					if( lblName !== undefined  && descName !== undefined){
+						$('#field_'+elementName).val("");
+						$('#fieldDesc_'+elementName).val("");
+						
+						// Remove the newly added elements from the DOM
+						$('#field_'+elementName).parent('div').parent('div').remove();
+						$('#fieldDesc_'+elementName).parent('div').parent('div').remove();
 
-						}					
 					}					
-				};
+				}					
+			};
 			
 			function addHelpDetails(){
 				var fieldElementName = String.fromCharCode(elementName);
@@ -719,17 +801,22 @@
 			}
 	
 			// To Save Customer feedback
-			function saveFeedBackDetails(){
+			function saveFeedBackDetails(){				
+				var applicationName =$('#applicationNameFB').val();
+				var pageName = $('#pageNameFB').val();
+				var comments = $('#feedbackDescription').val();
+				
+				resetAllEditor();
 			}
 			
-			// To Save test details 
-			function saveTestCaseDetails(){
+			function closeFeedBackDetails(){				
+				resetAllEditor();
 			}
 			
 		</script>
 		<script>
 			$(document).ready(function() {
-				$('#commandsList, #commandsListFeedBack, #commandsListTestCase').hide();
+				$('#commandsList, #commandsListFeedBack').hide();
 				$('#helpCreater, #custFeedBack, #testCase').hide();
 		
 				// Help Creater
@@ -753,17 +840,6 @@
 					$('#commandsListFeedBack').hide();
 					$('#feedbackDailog').show();
 				});
-		
-				// Test Case Creation
-				$('#voiceTestCase').on('click', function () {
-					$('#testCaseDailog').hide();
-					$('#commandsListTestCase').show();		
-				});
-
-				$('#manualTestCase').on('click', function () {
-					$('#commandsListTestCase').hide();
-					$('#testCaseDailog').show();
-				});	
 
 				$('#useHelp').on('click', function () {
 					$('#helpCreater').show();
@@ -823,8 +899,8 @@
 							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
 							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
 							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
-							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
-							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
+							  <li><span style="color:red">'Save Help'</span> : Save the entered details to process further</li>
+							  <li><span style="color:red">'Close Help'</span> : Close the help editor without saving the details</li>
 							</ul>
 						</div>
 						<!-- Modal Window for Help Editor -->
@@ -888,8 +964,8 @@
 											</form>
 										</div>
 										<div class="modal-footer">							
-											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeHelp">Close</button>
-											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveHelpDetails();" id="saveHelp">Save</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeHelpDetails();" id="closeHelp">Close Help</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveHelpDetails();" id="saveHelp">Save Help</button>
 										</div>
 									</div>
 								</div>
@@ -917,15 +993,12 @@
 							<span><b>Use the below mentioned commands</b></span>
 							<br>
 							<ul>
-							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
-							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
-							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
-							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
-							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
-							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
-							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
-							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
-							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
+							  <li><span style="color:red">'Add Feedback'</span> : Open the feedback editor</li>	
+							  <li><span style="color:red">'Feedback for Application'</span> :To enter application name</li>
+							  <li><span style="color:red">'Feedback for Page'</span> : To enter page name of the application feedback</li>			  
+							  <li><span style="color:red">'Comments'</span> : To enter customer feedback</li>							
+							  <li><span style="color:red">'Save Feedback'</span> : Save the entered details to process further</li>
+							  <li><span style="color:red">'Close Feedback'</span> : Close the help editor without saving the details</li>
 							</ul>
 						</div>
 						<br>
@@ -943,7 +1016,19 @@
 										  <h4 class="modal-title">Feedback Editor</h4>								
 										</div>
 										<div class="modal-body" id="feedBackModalBody">
-											<form class="form-horizontal" id="feedbackForm">																		
+											<form class="form-horizontal" id="feedbackForm">
+												<div class="form-group">
+													<label for="applicationNameFB" class="col-sm-2 control-label">Application Name</label>
+													<div class="col-sm-10">
+													  <input type="text" class="form-control" id="applicationNameFB" placeholder="Application Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="pageNameFB" class="col-sm-2 control-label">Page Name</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" id="pageNameFB" placeholder="Page Name"></input>					
+													</div>
+												</div>
 												<div class="form-group">
 													<label for="feedbackDescription" class="col-sm-2 control-label">Enter Your Feedback</label>
 													<div class="col-sm-10">
@@ -953,8 +1038,8 @@
 											</form>
 										</div>
 										<div class="modal-footer">							
-											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeFeedBack">Close</button>
-											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveFeedBackDetails();" id="saveFeedBack">Save</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeFeedBackDetails();" id="closeFeedBack">Close Feedback</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveFeedBackDetails();" id="saveFeedBack">Save Feedback</button>
 										</div>
 									</div>
 								</div>
@@ -972,58 +1057,7 @@
 					<img src="Test_Case.png" class="img-rounded" style="cursor:pointer" alt="Jinni Test Case Creater" id="useTestCase">
 					<br><br>
 					<div id="testCase">
-						<p><b>Select the Mode for Test Case Creation</b></p>
-						<form>
-							<label class="radio-inline"><input type="radio" name="helpOptions" id="voiceTestCase">Voice Entry</label>
-							<label class="radio-inline"><input type="radio" name="helpOptions" id="manualTestCase">Manual Entry</label>			
-						</form>
-						<div id="commandsListTestCase">
-							<span><b>Use the below mentioned commands</b></span>
-							<br>
-							<ul>
-							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
-							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
-							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
-							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
-							  <li><span style="color:red">'Add Field'</span> : To Add new label and description field</li>
-							  <li><span style="color:red">'<b>&lt; FIELD_NAME&gt;</b>'</span> : To enter the details to newly added label</li>
-							  <li><span style="color:red">'<b>&lt; DESCRIPTION_NAME&gt;</b>'</span> : To  enter the details to newly addded label description </li>
-							  <li><span style="color:red">'Save'</span> : Save the entered details to process further</li>
-							  <li><span style="color:red">'Close'</span> : Close the help editor without saving the details</li>
-							</ul>
-						</div>
-						<br>
-						<!-- Modal Window for Test Case Creation -->
-						<div>
-							<!-- Trigger the modal with a button -->
-							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#testCaseModal" id="testCaseDailog" style="display:none;">Test Case Editor</button>
-							<!-- Modal -->
-							<div class="modal fade" id="testCaseModal" role="dialog">
-								<div class="modal-dialog">
-									<!-- Modal content-->
-									<div class="modal-content modal-lg">
-										<div class="modal-header">
-										  <button type="button" class="close" data-dismiss="modal">&times;</button>
-										  <h4 class="modal-title">Test Case Editor</h4>								
-										</div>
-										<div class="modal-body" id="testCaseModalBody">
-											<form class="form-horizontal" id="testCaseForm">																		
-												<div class="form-group">
-													<label for="testCaseDescription" class="col-sm-2 control-label">Enter Steps of Test Case</label>
-													<div class="col-sm-10">
-														<textarea class="form-control" rows="10" id="testCaseDescription" placeholder=""></textarea>	  									
-													</div>
-												</div>							  
-											</form>
-										</div>
-										<div class="modal-footer">							
-											<button type="button" class="btn btn-default" data-dismiss="modal" id="closeTestCase>Close</button>
-											<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveTestCaseDetails();" id="saveTestCase">Save</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<span style="margin-left:20px; color:red; font-weight: bold;"> Test Case Creation functionality is Under Construction</span>
 					</div>
 				</div>
 			</div>
