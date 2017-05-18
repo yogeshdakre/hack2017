@@ -680,6 +680,8 @@
 					if(obj==null || obj== undefined){
 						// create
 						ref.set(storeObject);
+						$('#msgText').html("Help for page : " + pageName + " is successfully saved to cloud");
+						$('#msgModal').modal('show');
 					}else
 					{
 						// update
@@ -730,7 +732,9 @@
 							{
 								obj.pages =pages;
 							}
-						ref.update(obj);	
+						ref.update(obj);
+						$('#msgText').html("Help for page : " + pageName + " is successfully updated to cloud");
+						$('#msgModal').modal('show');						
 					}
 					
 					console.log("what i have",snapshot.val());
@@ -828,7 +832,9 @@
 								
 							}
 						if(pageFound){
-							ref.update(obj);		
+							ref.update(obj);
+							$('#msgText').html("Customer feedback for page : " + pageName + " is successfully saved to cloud");
+							$('#msgModal').modal('show');
 						}else{
 							console.log("page Not found");
 						}							
