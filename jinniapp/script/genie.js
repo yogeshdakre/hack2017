@@ -505,12 +505,10 @@
 				
 				var saveHelp = function() {			  
 				  saveHelpDetails();
-				  $('#saveHelp').click();				
 				};
 				
 				var closeHelp = function() {
 				  closeHelpDetails();
-				  $('#closeHelp').click();				 
 				};
 				
 				
@@ -575,13 +573,11 @@
 				};
 				
 				var saveFeedback = function() {			  
-				  saveFeedBackDetails();
-				  $('#saveFeedBack').click();				  
+				  saveFeedBackDetails();				  
 				};
 				
 				var closeFeedback = function() {
-				  closeFeedBackDetails();
-				  $('#closeFeedBack').click();				  
+				  closeFeedBackDetails();			  
 				};
 								
 				// define our commands.
@@ -648,7 +644,9 @@
 				});
 			}
 			
-			function saveHelpDetails(){				
+			function saveHelpDetails(){
+				$('#helpModal').modal('hide');
+				
 				var pageName = $('#pageName').val();
 				var pageDesc = $('#pageDescription').val();
 				var labelName = $('#labelName').val();
@@ -737,15 +735,12 @@
 					
 					console.log("what i have",snapshot.val());
 				});
-					
-				
-
 				console.log(storeObject);	
-
 				resetAllEditor();
 			}
 			
 			function closeHelpDetails(){
+				$('#helpModal').modal('hide');
 				resetAllEditor();
 			}
 			
@@ -790,7 +785,9 @@
 			}
 	
 			// To Save Customer feedback
-			function saveFeedBackDetails(){				
+			function saveFeedBackDetails(){	
+				$('#feedBackModal').modal('hide');
+			
 				var applicationName =$('#applicationNameFB').val();
 				var pageName = $('#pageNameFB').val();
 				var comments = $('#feedbackDescription').val();
@@ -836,16 +833,14 @@
 							console.log("page Not found");
 						}							
 						
-					}
-					
+					}					
 					console.log("what i have",snapshot.val());
 				});
-					
-				
 				resetAllEditor();
 			}
 			
-			function closeFeedBackDetails(){				
+			function closeFeedBackDetails(){
+				$('#feedBackModal').modal('hide');
 				resetAllEditor();
 			}
 
