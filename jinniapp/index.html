@@ -574,12 +574,8 @@
 			}
 			
 			function resetHelpEditor() {
-					$('#pageName').val("");
-					$('#pageDescription').val("");
-					$('#labelName').val("");
-					$('#labelDescription').val("");	
-					$('#applicationName').val("");
-
+					$('#pageName, #pageDescription, #labelName, #labelDescription, #applicationName').val("");
+					
 					for(var i = 65; i< 75; i++){
 						var elementName = String.fromCharCode(i).toLowerCase();
 						var lblName = $('#field_'+elementName).val();
@@ -587,8 +583,13 @@
 						if( lblName !== undefined  && descName !== undefined){
 							$('#field_'+elementName).val("");
 							$('#fieldDesc_'+elementName).val("");
+							
+							// Remove the newly added elements from the DOM
+							$('#field_'+elementName).parent('div').parent('div').remove();
+							$('#fieldDesc_'+elementName).parent('div').parent('div').remove();
+
 						}					
-					}
+					}					
 				};
 			
 			function addHelpDetails(){
