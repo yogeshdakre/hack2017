@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Jinnie The Executor</title>
+		<title>Genie The Executor</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -17,11 +17,64 @@
 				// define the functions our commands will run.
 				
 				// Command to open Help Editor
-				var openHelpEditor = function(pageName) {
-					$('#helpDailog').click();
-					$('#pageName').val(pageName);
+				var openHelpEditor = function() {
+					$('#helpDailog').click();					
+				};
+
+				// Application Name
+				var addApplicationName = function() {
+					$('#applicationName').focus();
+					
+					var appNameDetail = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#applicationName").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								appNameDetail = appNameDetail + phrases[0];
+								$('#applicationName').val(appNameDetail);
+							}					
+						}	
+					});
+				};
+
+				// Application URL
+				var addApplicationURL = function() {
+					$('#applicationUrl').focus();
+					
+					var appLinkDetail = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#applicationUrl").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								appLinkDetail = appLinkDetail + phrases[0];
+								$('#applicationUrl').val(appLinkDetail);
+							}					
+						}	
+					});
 				};
 				
+				// Add Page Name				
+				var addPageName = function(){					
+					$('#pageName').focus();
+					
+					var pageNameDetail = '';
+					annyang.addCallback('result', function(phrases) {
+						if ($("#pageName").is(":focus")) {
+							var recognizedPhase = phrases[0];
+							console.log("Recognized Phases : '" + recognizedPhase + "'");
+							console.log(" Trimmed Recognized Phases : '" + $.trim(recognizedPhase) + "'");
+							if(!commands.hasOwnProperty($.trim(recognizedPhase))){
+								pageNameDetail = pageNameDetail + phrases[0];
+								$('#pageName').val(pageNameDetail);
+							}					
+						}	
+					});
+				};
+
 				// Add Page Description
 				var addPageDesc = function(){					
 					$('#pageDescription').focus();
@@ -474,9 +527,13 @@
 								
 				// define our commands.
 				var commands = {
-					'add help for *pageName': openHelpEditor,
+
+					'add help': openHelpEditor,
 					'save' : saveHelp,
-					'close' : closeHelp,				  
+					'close' : closeHelp,
+					'application name' : addApplicationName,			  
+					'application link' : addApplicationURL,
+					'page name': addPageName,
 					'page description': addPageDesc,
 					'help field': addLabelName,
 					'help description': addLabelDesc,	
@@ -530,10 +587,11 @@
 				var labelName = $('#labelName').val();
 				var labelDesc = $('#labelDescription').val();
 				var applicationName =$('#applicationName').val();
+				var applicationUrl = $('#applicationUrl').val();
 
 				var storeObject ={};
 				storeObject.appName =applicationName;
-				storeObject.name= "www.jinny.com";
+				storeObject.name= applicationUrl;
 
 				var pages = [];				
 				var helpFor = [];
@@ -560,6 +618,7 @@
 					}else
 					{
 						// update
+							obj.name=storeObject.name;
 							if(obj.pages!=null)
 							{
 								// check page by page for help and page discription 
@@ -619,7 +678,7 @@
 			}
 			
 			function resetHelpEditor() {
-					$('#pageName, #pageDescription, #labelName, #labelDescription, #applicationName').val("");
+					$('#pageName, #pageDescription, #labelName, #labelDescription, #applicationName, #applicationUrl').val("");
 					
 					for(var i = 65; i< 75; i++){
 						var elementName = String.fromCharCode(i).toLowerCase();
@@ -734,13 +793,13 @@
 	</head>
 	<body>
 			<div class = "page-header" style="margin: 0px 70px 0px 70px; padding-bottom: 0px; padding-left: 10px;">
-				<h1><img src="app_logo.png" class="img-rounded" width="45px;"/>Jinnie The Executor</h1>
+				<h1><img src="app_logo.png" class="img-rounded" width="45px;"/>Genie The Executor</h1>
 			</div>
 			<div style="padding: 0px 50px 50px 50px;">			
 				<!-- Jinni Help Creater-->
 				<div style="width:33%; padding:20px; float: left;">
-					<h3>Jinnie Help Creater</h3>
-					<p>The Jinni Help Creater provide an ability to the user to create the help for the application through manual entry or voice commands.</p>
+					<h3>Genie Help Creater</h3>
+					<p>The Genie Help Creater provide an ability to the user to create the help for the application through manual entry or voice commands.</p>
 					<img src="Jinni_Helper.png" class="img-rounded" style="cursor:pointer" alt="Jinni Help Creater" id="useHelp">
 					<br><br>
 					<div id="helpCreater">
@@ -753,7 +812,10 @@
 							<span><b>Use the below mentioned commands</b></span>
 							<br>
 							<ul>
-							  <li><span style="color:red">'Add help for <b>&lt;PAGE_NAME&gt;</b>'</span> : Open the help editor for specified application page name</li>				  
+							  <li><span style="color:red">'Add help'</span> : Open the help editor</li>	
+							  <li><span style="color:red">'Application Name'</span> :To enter application name</li>
+							  <li><span style="color:red">'Application Link'</span> : To enter application url</li>
+							  <li><span style="color:red">'Page Name'</span> : To enter page name of the application</li>			  
 							  <li><span style="color:red">'Page Description'</span> : To enter description of the page</li>
 							  <li><span style="color:red">'Help Field'</span> : To enter field name</li>
 							  <li><span style="color:red">'Help Description'</span> : To enter field description</li>
@@ -786,12 +848,18 @@
 										</div>
 										<div class="modal-body" id="helpModalBody">
 											<form class="form-horizontal" id="helpForm">
-											<div class="form-group">
-												<label for="applicationName" class="col-sm-2 control-label">Application Name</label>
-												<div class="col-sm-10">
-												  <input type="text" class="form-control" id="applicationName" placeholder="Application Name">
+												<div class="form-group">
+													<label for="applicationName" class="col-sm-2 control-label">Application Name</label>
+													<div class="col-sm-10">
+													  <input type="text" class="form-control" id="applicationName" placeholder="Application Name">
+													</div>
 												</div>
-											</div>
+												<div class="form-group">
+													<label for="applicationUrl" class="col-sm-2 control-label">Application URL</label>
+													<div class="col-sm-10">
+													  <input type="text" class="form-control" id="applicationUrl" placeholder="Application URL">
+													</div>
+												</div>
 												<div class="form-group">
 													<label for="pageName" class="col-sm-2 control-label">Page Name</label>
 													<div class="col-sm-10">
@@ -831,9 +899,9 @@
 				
 				<!-- Jinni Customer Feedback-->
 				<div style="width:33%; padding:20px; float: left;">
-					<h3>Jinnie Customer Feedback</h3>
+					<h3>Genie Customer Feedback</h3>
 					<p>
-						The Jinnie Customer Feedback provide an ability to the user to enter thier feedback retated to application functionality through manual entry or voice commands.
+						The Genie Customer Feedback provide an ability to the user to enter thier feedback retated to application functionality through manual entry or voice commands.
 						This guide the developer while looking at the issue.
 					</p>
 					<img src="Customer_Feedback.png" class="img-rounded" style="cursor:pointer" alt="Jinni Feedback Creater" id="useFeedBack">
@@ -896,9 +964,9 @@
 				
 				<!-- Jinni Test Case Creation-->
 				<div style="width:33%; padding:20px; float: left;">
-					<h3>Jinnie Test Case Creation</h3>
+					<h3>Genie Test Case Creation</h3>
 					<p>
-						The Jinnie Test Case Creation provide an ability to the QA Developer to enter the test scenarios related to the page in the through manual entry or voice commands.				
+						The Genie Test Case Creation provide an ability to the QA Developer to enter the test scenarios related to the page in the through manual entry or voice commands.				
 					</p>
 					<img src="Test_Case.png" class="img-rounded" style="cursor:pointer" alt="Jinni Test Case Creater" id="useTestCase">
 					<br><br>
@@ -957,6 +1025,14 @@
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
+			<nav class="navbar-default navbar-fixed-bottom"> 
+	          <div style="margin-left: 50px;">
+                    <marquee height=30 scrollamount=10>
+                    	<span style="color: #653856; font-size: 16px; font-weight: bold;">This is not the voice commands, Genie is here to help you</span>
+                    </marquee>                                                           
+	          </div> 
+	        </nav>
+	
 	</body>
 </html>
