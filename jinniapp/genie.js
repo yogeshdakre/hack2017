@@ -794,6 +794,53 @@
 				var applicationName =$('#applicationNameFB').val();
 				var pageName = $('#pageNameFB').val();
 				var comments = $('#feedbackDescription').val();
+
+
+				var storeObject ={"appName":'',"name":'',"pages":[]};
+				storeObject.appName =applicationName;
+				var customerFeedback ={'developercomment' :'','notes':comments,'screenshot':''};
+								
+			
+
+				var ref = firebase.database().ref(applicationName);
+				ref.once('value').then(function(snapshot)
+				{
+					var obj=snapshot.val();
+					//check if application created or not if created the create or update 
+					if(obj==null || obj== undefined){
+						// create
+						return;
+					}else
+					{
+						// update
+							if(obj.pages!=null)
+							{
+								// check page by page for help and page discription 
+								var pageFound = false;
+								for (var i = obj.pages.length - 1; i >= 0; i--)
+								 {
+										var page = obj.pages[i];
+										if(page.name==pageName)
+										{
+											page.customerFeedback =customerFeedback;
+
+											pageFound = true;
+											break;
+										}
+								}
+								
+							}
+						if(pageFound){
+							ref.update(obj);		
+						}else{
+							console.log("page Not found");
+						}							
+						
+					}
+					
+					console.log("what i have",snapshot.val());
+				});
+					
 				
 				resetAllEditor();
 			}
